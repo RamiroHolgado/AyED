@@ -4,10 +4,9 @@ import tp02.ejercicio3.ColaGenerica;
 
 public class ArbolBinario<T> {
 	private T dato;
-	private ArbolBinario<T> hijoIzquierdo;   
-	private ArbolBinario<T> hijoDerecho; 
+	private ArbolBinario<T> hijoIzquierdo;
+	private ArbolBinario<T> hijoDerecho;
 
-	
 	public ArbolBinario() {
 		super();
 	}
@@ -27,9 +26,10 @@ public class ArbolBinario<T> {
 	public void setDato(T dato) {
 		this.dato = dato;
 	}
-	
+
 	/**
 	 * Preguntar antes de invocar si tieneHijoIzquierdo()
+	 * 
 	 * @return
 	 */
 	public ArbolBinario<T> getHijoIzquierdo() {
@@ -71,33 +71,33 @@ public class ArbolBinario<T> {
 		return this.getDato().toString();
 	}
 
-	 
 	public boolean tieneHijoIzquierdo() {
-		return this.hijoIzquierdo!=null;
+		return this.hijoIzquierdo != null;
 	}
 
-	 
 	public boolean tieneHijoDerecho() {
-		return this.hijoDerecho!=null;
+		return this.hijoDerecho != null;
 	}
 
 	public int contarHojas() {
 		int cant = 0;
-		if (this.esHoja()) return 1;
+		if (this.esHoja())
+			return 1;
 		else {
-			if (this.tieneHijoDerecho()) cant += this.getHijoDerecho().contarHojas();
-			if (this.tieneHijoIzquierdo()) cant += this.getHijoIzquierdo().contarHojas();
-			}
-		
+			if (this.tieneHijoDerecho())
+				cant += this.getHijoDerecho().contarHojas();
+			if (this.tieneHijoIzquierdo())
+				cant += this.getHijoIzquierdo().contarHojas();
+		}
+
 		return cant;
 	}
-	
 
-    public ArbolBinario<T> espejo() {
-    	ArbolBinario<T> aux = null;
+	public ArbolBinario<T> espejo() {
+		ArbolBinario<T> aux = null;
 		if (!this.esHoja()) {
 			if (this.tieneHijoDerecho()) {
-				this.getHijoDerecho().espejo();				
+				this.getHijoDerecho().espejo();
 			}
 			if (this.tieneHijoIzquierdo()) {
 				this.getHijoIzquierdo().espejo();
@@ -106,61 +106,59 @@ public class ArbolBinario<T> {
 			aux = this.getHijoDerecho();
 			this.agregarHijoDerecho(this.getHijoIzquierdo());
 			this.agregarHijoIzquierdo(aux);
-			
-		}			
+
+		}
 		return this;
-			
+
 	}
 
+	public int altura() {
+		int aux = -1;
+		if (this.esHoja())
+			return 0;
+		else {
+			if (this.tieneHijoIzquierdo())
+				aux = Math.max(aux, this.getHijoIzquierdo().altura());
+			if (this.tieneHijoDerecho())
+				aux = Math.max(aux, this.getHijoDerecho().altura());
+		}
+		return aux + 1;
+	}
 
-    public int altura() {
-    	int aux = -1;
-    	if (this.esHoja()) return 0;
-    	else {
-    		if (this.tieneHijoIzquierdo())
-    			aux = Math.max(aux, this.getHijoIzquierdo().altura());
-    		if (this.tieneHijoDerecho())
-    			aux = Math.max(aux, this.getHijoDerecho().altura());
-    	}
-    	return aux + 1;
-    }
-    
-   
-    public void entreNiveles(int n,int m){
-		if((n<m)&&(n>=0)&&(m<=this.altura())) {
-			int nivel=0;
+	public void entreNiveles(int n, int m) {
+		if ((n < m) && (n >= 0) && (m <= this.altura())) {
+			int nivel = 0;
 			ColaGenerica<ArbolBinario<T>> cola = new ColaGenerica<ArbolBinario<T>>();
-			ArbolBinario<T> arbol=null;
-			
+			ArbolBinario<T> arbol = null;
+
 			cola.encolar(this);
 			cola.encolar(null);
-			while(!cola.esVacia()) {
+			while (!cola.esVacia()) {
 				arbol = cola.desencolar();
-				if(arbol !=null) {
-					if(arbol.tieneHijoIzquierdo())
+				if (arbol != null) {
+					if (arbol.tieneHijoIzquierdo())
 						cola.encolar(arbol.getHijoIzquierdo());
-					if((nivel>=n)&&(nivel<=m))					
-						System.out.print(arbol.getDato() + " ");					
-					if(arbol.tieneHijoDerecho())
+					if ((nivel >= n) && (nivel <= m))
+						System.out.print(arbol.getDato() + " ");
+					if (arbol.tieneHijoDerecho())
 						cola.encolar(arbol.getHijoDerecho());
-					
-				}else if(!cola.esVacia()) {						
+
+				} else if (!cola.esVacia()) {
 					cola.encolar(null);
 					nivel++;
 					System.out.println();
 				}
 			}
 		}
-		
-	}
-	
-	public void enOrden() {
-		if(this.tieneHijoIzquierdo())
-			this.getHijoIzquierdo().enOrden();
-		System.out.print(this.getDato()+" ");
-		if(this.tieneHijoDerecho())
-			this.getHijoDerecho().enOrden();
+
 	}
 
+	public void enOrden() {
+		if (this.tieneHijoIzquierdo())
+			this.getHijoIzquierdo().enOrden();
+		System.out.print(this.getDato() + " ");
+		if (this.tieneHijoDerecho())
+			this.getHijoDerecho().enOrden();
+	}
 
 }
